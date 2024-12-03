@@ -64,22 +64,32 @@ namespace MMABooksTests
         [Test]
         public void DeleteTest()
         {
-            s = dbContext.States.Find("HI");
+            s = dbContext.States.Find("XX");
             dbContext.States.Remove(s);
             dbContext.SaveChanges();
-            Assert.IsNull(dbContext.States.Find("HI"));
+            Assert.IsNull(dbContext.States.Find("TestState"));
         }
 
         [Test]
         public void CreateTest()
         {
-
+            s = new State();
+            s.StateCode = "XX";
+            s.StateName = "TestState";
+            dbContext.States.Add(s);
+            dbContext.SaveChanges();
+            Assert.IsNotNull(dbContext.States.Find("XX"));
         }
 
         [Test]
         public void UpdateTest()
         {
-
+            s = dbContext.States.Find("OR");
+            s.StateName = "Oregon";
+            dbContext.States.Update(s);
+            dbContext.SaveChanges();
+            dbContext.States.Find("OR");
+            Assert.AreEqual("Oregon", s.StateName);
         }
 
         public void PrintAll(List<State> states)
